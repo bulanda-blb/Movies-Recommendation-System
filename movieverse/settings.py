@@ -31,7 +31,7 @@ TMDB_API_KEY = env('TMDB_API_KEY')
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=8#a0sw4w+ix#9fa97f2qvrc1(ka7^a7g%h4)!(cs5ol+=htj%'
+SECRET_KEY = Your key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -151,8 +151,8 @@ EMAIL_PORT        = 587
 EMAIL_USE_TLS     = True
 
 
-EMAIL_HOST_USER     = 'movieverse812@gmail.com'
-EMAIL_HOST_PASSWORD = 'xjqo zuiz gfuj wctl'
+EMAIL_HOST_USER     = your email id
+EMAIL_HOST_PASSWORD = Your app password
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
