@@ -1,0 +1,86 @@
+{% load static humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explore – MovieVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'index/css/explore.css' %}">
+  <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  {% include "includes/header.html" %}
+
+  <main class="explore-page">
+
+    <!-- Movie grid -->
+    <div class="movie-grid">
+      {% for m in movies %}
+        <div class="movie-card" data-movie-id="{{ m.tmdb_id }}">
+          <a href="{% url 'index:movie_detail' m.tmdb_id %}" class="movie-card-link">
+            <img src="https://image.tmdb.org/t/p/w200{{ m.poster_path }}" alt="{{ m.title }}">
+          </a>
+          <button class="watchlist-btn" data-url="{% url 'index:toggle_watchlist' %}">
+            <i class="fas fa-bookmark"></i>
+          </button>
+          <div class="info">
+            <h4>{{ m.title }}</h4>
+            <p>
+              {% for g in m.genres_list %}
+                {{ g }}{% if not forloop.last %} | {% endif %}
+              {% endfor %}
+            </p>
+            <div class="meta">
+              <span>
+                {% if m.release_date %}{{ m.release_date.year }}{% endif %} • {{ m.runtime }} min
+              </span>
+              <span>
+                ★ {{ m.vote_average }} <small>({{ m.vote_count|intcomma }})</small>
+              </span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Windowed pagination -->
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?{% if current_genre %}genre={{ current_genre|urlencode }}{% else %}category={{ current_category|urlencode }}{% endif %}&page={{ page_obj.previous_page_number }}">
+          ← Prev
+        </a>
+      {% endif %}
+
+      {% for p in pages_to_show %}
+        {% if p %}
+          {% if p == page_obj.number %}
+            <span class="current">{{ p }}</span>
+          {% else %}
+            <a href="?{% if current_genre %}genre={{ current_genre|urlencode }}{% else %}category={{ current_category|urlencode }}{% endif %}&page={{ p }}">
+              {{ p }}
+            </a>
+          {% endif %}
+        {% else %}
+          <span class="ellipsis">…</span>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a href="?{% if current_genre %}genre={{ current_genre|urlencode }}{% else %}category={{ current_category|urlencode }}{% endif %}&page={{ page_obj.next_page_number }}">
+          Next →
+        </a>
+      {% endif %}
+    </div>
+
+
+  </main>
+
+  {% include "includes/footer.html" %}
+  <script src="{% static 'index/js/explore.js' %}"></script>
+  <script src="{% static 'index/js/script.js' %}"></script>
+  <script src="{% static 'index/js/watchlist.js'%}"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MovieVerse - Discover Your Next Favorite Movie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'index/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'authentication/css/signup.css'%}">
+</head>
+<body>
+
+{% include "includes/header.html" %}
+
+<section class="signup-section">
+  
+
+  <div class="signup-card">
+    {% if signup_error %}
+      <div id="backend-error" class="backend-error">
+        {{ signup_error }}
+      </div>
+    {% endif %}
+
+    <h2>Create Your Account</h2>
+    <p class="error-msg" id="errorMsg"></p>
+    <form action="{% url 'signup'%}" id="signupForm" method="POST">
+      {% csrf_token %}
+      <input type="email" name = "email" id="email" placeholder="Email" value="{{ email|default:'' }}" required>
+      <input type="password" name="password" id="password" placeholder="Password" value="{{ password|default:'' }}" required>
+      <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" value="{{ confirmPassword|default:'' }}" required>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="termsCheck" id="termsCheck" {% if terms_check %}checked{% endif %}>
+        I agree to the Terms and Services
+      </label>
+
+      <button type="submit" id="registerBtn" disabled>Register</button>
+
+      <p class="bottom-link">Already have an account? <a href="{% url 'login'%}">Login</a></p>
+    </form>
+  </div>
+</section>
+
+{% include "includes/footer.html" %}
+
+<script src="{% static 'authentication/js/signup.js'%}"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/* Container padding (if you wrap in .content) */
+.content {
+  margin-left: 60px;
+  padding: 20px;
+}
+
+/* Section title */
+.recommendation-section .section-title {
+  font-size: 1.3rem;
+  color: #BB86FC;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+}
+.recommendation-section .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: #03DAC6;
+  border-radius: 2px;
+}
+
+/* Movie-card grid: matches your template’s .movie-grid */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* ----- Card styles (reuse your existing .movie-card rules) ----- */
+.movie-card {
+  position: relative;
+  background: #1e1e1e;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.movie-card:hover {
+  transform: scale(1.03);
+}
+.movie-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+.movie-card .info {
+  background: #1c1c1c;
+  padding: 8px;
+}
+.movie-card .info h4 {
+  margin: 0 0 6px;
+  color: #E0E0E0;
+  font-size: 1rem;
+}
+.movie-card .info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+.movie-card .meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+/* Watchlist button (if you show it here too) */
+.movie-card .watchlist-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.movie-card .watchlist-btn:hover {
+  background: rgba(3,218,198,0.8);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+.pagination a,
+.pagination span {
+  background: #2a2a2a;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+}
+.pagination a:hover {
+  background: #333;
+  color: #fff;
+}
+.pagination span.current {
+  background: #03DAC6;
+  color: #121212;
+  font-weight: bold;
+}
+.pagination span.dots {
+  background: transparent;
+  color: #888;
+  padding: 0 6px;
+  cursor: default;
+}

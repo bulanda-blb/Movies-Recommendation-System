@@ -1,0 +1,91 @@
+/* Layout */
+.content {
+  margin-left: 60px;
+  padding: 20px;
+}
+.preferences-section {
+  max-width: 90%;
+  margin: 0 auto;
+}
+.preferences-section h2 {
+  font-size: 1.6rem;
+  color: #BB86FC;
+  margin-bottom: 4px;
+}
+.preferences-section .intro {
+  color: #aaa;
+  margin-bottom: 24px;
+}
+
+/* Question group styling */
+.pref-group {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.group-label {
+  font-weight: bold;
+  color: #E0E0E0;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Options row */
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.options-row label {
+  cursor: pointer;
+}
+.options-row input {
+  display: none;
+}
+.options-row span {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #2a2a2a;
+  color: #ccc;
+  transition: background 0.2s, color 0.2s;
+}
+/* Checked styles */
+.options-row input:checked + span {
+  background: #03DAC6;
+  color: #121212;
+}
+
+/* Dropdowns */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #2a2a2a;
+  color: #E0E0E0;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  width: 100%;
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+/* Save button */
+.btn-save {
+  background: #03DAC6;
+  color: #121212;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  margin-top: 12px;
+  display: block;
+}
+.btn-save.enabled {
+  opacity: 1;
+  cursor: pointer;
+}

@@ -1,0 +1,39 @@
+{% extends "user_profile/profile_base.html" %}
+{% load static %}
+
+{% block title %}Your History – MovieVerse{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'user_profile/css/history.css' %}">
+{% endblock %}
+
+{% block content %}
+  <section class="search-history-section">
+    <div class="section-title">Search History</div>
+
+    <div class="history-grid" id="historyGrid">
+      {% if histories %}
+        {% for h in histories %}
+          <div class="history-card" data-id="{{ h.id }}">
+            <button class="remove-history"><i class="fa fa-times"></i></button>
+            <p class="search-term">{{ h.query }}
+              {% comment %} <small>({{ h.genre }})</small> {% endcomment %}
+            </p>
+            <p class="search-time">
+              {{ h.timestamp|date:"Y-m-d H:i" }}
+            </p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No search history yet.</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    window.deleteHistoryUrl = "{% url 'user_profile:delete_history' %}";
+  </script>
+  <script src="{% static 'user_profile/js/history.js' %}"></script>
+{% endblock %}

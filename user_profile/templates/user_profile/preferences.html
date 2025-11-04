@@ -1,0 +1,114 @@
+{% extends "user_profile/profile_base.html" %}
+{% load static %}
+
+{% block title %}Your Preferences – MovieVerse{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_profile/css/preferences.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="preferences-section">
+  <h2>Customize Your Experience</h2>
+  <p class="intro">Select your preferences below to get better personalized recommendations:</p>
+
+  <form id="preferencesForm" action="{% url 'user_profile:preferences' %}" method="post">
+    {% csrf_token %}
+
+    <!-- Favorite Genres -->
+    <div class="pref-group">
+      <label class="group-label">Favorite Genres</label>
+      <div class="options-row">
+        <label><input type="checkbox" name="genre" value="Action" {% if 'Action' in prefs.genres %}checked{% endif %}><span>Action</span></label>
+        <label><input type="checkbox" name="genre" value="Drama" {% if 'Drama' in prefs.genres %}checked{% endif %}><span>Drama</span></label>
+        <label><input type="checkbox" name="genre" value="Comedy" {% if 'Comedy' in prefs.genres %}checked{% endif %}><span>Comedy</span></label>
+        <label><input type="checkbox" name="genre" value="Romance" {% if 'Romance' in prefs.genres %}checked{% endif %}><span>Romance</span></label>
+        <label><input type="checkbox" name="genre" value="Sci-Fi" {% if 'Sci-Fi' in prefs.genres %}checked{% endif %}><span>Sci-Fi</span></label>
+        <label><input type="checkbox" name="genre" value="Thriller" {% if 'Thriller' in prefs.genres %}checked{% endif %}><span>Thriller</span></label>
+        <label><input type="checkbox" name="genre" value="Horror" {% if 'Horror' in prefs.genres %}checked{% endif %}><span>Horror</span></label>
+        <label><input type="checkbox" name="genre" value="Fantasy" {% if 'Fantasy' in prefs.genres %}checked{% endif %}><span>Fantasy</span></label>
+        <label><input type="checkbox" name="genre" value="Documentary" {% if 'Documentary' in prefs.genres %}checked{% endif %}><span>Documentary</span></label>
+        <label><input type="checkbox" name="genre" value="Animation" {% if 'Animation' in prefs.genres %}checked{% endif %}><span>Animation</span></label>
+      </div>
+    </div>
+
+    <!-- Preferred Mood -->
+    <div class="pref-group">
+      <label class="group-label">Preferred Mood</label>
+      <div class="options-row">
+        <label><input type="checkbox" name="mood" value="Thrilling" {% if 'Thrilling' in prefs.moods %}checked{% endif %}><span>Thrilling</span></label>
+        <label><input type="checkbox" name="mood" value="Romantic" {% if 'Romantic' in prefs.moods %}checked{% endif %}><span>Romantic</span></label>
+        <label><input type="checkbox" name="mood" value="Humorous" {% if 'Humorous' in prefs.moods %}checked{% endif %}><span>Humorous</span></label>
+        <label><input type="checkbox" name="mood" value="Scary" {% if 'Scary' in prefs.moods %}checked{% endif %}><span>Scary</span></label>
+        <label><input type="checkbox" name="mood" value="Uplifting" {% if 'Uplifting' in prefs.moods %}checked{% endif %}><span>Uplifting</span></label>
+        <label><input type="checkbox" name="mood" value="Nostalgic" {% if 'Nostalgic' in prefs.moods %}checked{% endif %}><span>Nostalgic</span></label>
+      </div>
+    </div>
+
+    <!-- Preferred Movie Length -->
+    <div class="pref-group">
+      <label class="group-label">Preferred Movie Length</label>
+      <div class="options-row">
+        <label><input type="radio" name="length" value="<90" {% if prefs.preferred_length == '<90' %}checked{% endif %}><span>&lt; 90 min</span></label>
+        <label><input type="radio" name="length" value="90-120" {% if prefs.preferred_length == '90-120' %}checked{% endif %}><span>90–120 min</span></label>
+        <label><input type="radio" name="length" value=">120" {% if prefs.preferred_length == '>120' %}checked{% endif %}><span>&gt; 120 min</span></label>
+      </div>
+    </div>
+
+    <!-- Viewing Context -->
+    <div class="pref-group">
+      <label class="group-label">Viewing Context</label>
+      <div class="options-row">
+        <label><input type="radio" name="context" value="Alone" {% if prefs.context == 'Alone' %}checked{% endif %}><span>Alone</span></label>
+        <label><input type="radio" name="context" value="Family" {% if prefs.context == 'Family' %}checked{% endif %}><span>With Family</span></label>
+        <label><input type="radio" name="context" value="Friends" {% if prefs.context == 'Friends' %}checked{% endif %}><span>With Friends</span></label>
+      </div>
+    </div>
+
+    <!-- Viewing Frequency -->
+    <div class="pref-group">
+      <label class="group-label">Viewing Frequency</label>
+      <select name="frequency" id="frequency" class="select">
+        <option value="">Select frequency</option>
+        <option value="daily"   {% if prefs.frequency == 'daily'   %}selected{% endif %}>Daily</option>
+        <option value="weekly"  {% if prefs.frequency == 'weekly'  %}selected{% endif %}>Weekly</option>
+        <option value="monthly" {% if prefs.frequency == 'monthly' %}selected{% endif %}>Monthly</option>
+      </select>
+    </div>
+
+    <!-- Subtitles Preference -->
+    <div class="pref-group">
+      <label class="group-label">Subtitles?</label>
+      <div class="options-row">
+        <label><input type="radio" name="subtitles" value="Yes" {% if prefs.subtitles   %}checked{% endif %}><span>Yes</span></label>
+        <label><input type="radio" name="subtitles" value="No"  {% if not prefs.subtitles %}checked{% endif %}><span>No</span></label>
+      </div>
+    </div>
+
+    <!-- Release Era -->
+    <div class="pref-group">
+      <label class="group-label">Release Era</label>
+      <div class="options-row">
+        <label><input type="checkbox" name="era" value="Classic"      {% if 'Classic'      in prefs.era %}checked{% endif %}><span>Classic</span></label>
+        <label><input type="checkbox" name="era" value="Modern"       {% if 'Modern'       in prefs.era %}checked{% endif %}><span>Modern</span></label>
+        <label><input type="checkbox" name="era" value="New Releases" {% if 'New Releases' in prefs.era %}checked{% endif %}><span>New Releases</span></label>
+      </div>
+    </div>
+
+    <!-- Content Type -->
+    <div class="pref-group">
+      <label class="group-label">Content Type</label>
+      <div class="options-row">
+        <label><input type="checkbox" name="type" value="Movie"        {% if 'Movie'        in prefs.content_type %}checked{% endif %}><span>Movie</span></label>
+        <label><input type="checkbox" name="type" value="Series"       {% if 'Series'       in prefs.content_type %}checked{% endif %}><span>Series</span></label>
+        <label><input type="checkbox" name="type" value="Documentary"  {% if 'Documentary'  in prefs.content_type %}checked{% endif %}><span>Documentary</span></label>
+      </div>
+    </div>
+
+    <button type="submit" name="submit" id="savePrefBtn" class="btn-save" disabled>Save Preferences</button>
+  </form>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'user_profile/js/preferences.js' %}"></script>
+{% endblock %}

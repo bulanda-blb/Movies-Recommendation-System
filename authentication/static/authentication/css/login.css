@@ -1,0 +1,141 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b, #ff6ec4, #007cf0);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Placeholder Header/Footer */
+header, footer {
+  background: #111;
+  color: #fff;
+  padding: 15px 30px;
+  text-align: center;
+}
+
+/* Centered Main Content */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+
+#login-success {
+  max-width: 400px;
+  margin: 0.5rem auto;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  background-color: #d4edda;
+  color: #a82c07;
+  font-weight: bold;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+
+.error-msg {
+  max-width: 400px;
+  margin: 0.5rem auto;
+  padding: 0.5rem 0.75rem;
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* Login Card */
+.login-card {
+  background: #1c1c1c;
+  border-radius: 10px;
+  padding: 30px 40px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  text-align: center;
+  color: #E0E0E0;
+}
+
+/* Title */
+.login-card h2 {
+  margin-bottom: 20px;
+  color: #BB86FC; /* Lavender accent */
+}
+
+/* Input Fields */
+.login-card input[type="email"],
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Submit Button */
+button#loginBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #444;
+  color: #999;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+button#loginBtn.enabled {
+  background-color: #03DAC6;
+  color: #121212;
+  cursor: pointer;
+}
+
+
+
+
+/* Password Criteria */
+.password-criteria {
+  font-size: 0.75rem;
+  color: #888;
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+/* Bottom Links (Forgot Password + Register) */
+.bottom-links {
+  font-size: 0.85rem;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.bottom-links a {
+  color: #03DAC6;
+  text-decoration: none;
+}
+
+.bottom-links a:hover {
+  text-decoration: underline;
+}

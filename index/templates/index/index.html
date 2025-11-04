@@ -1,0 +1,137 @@
+{% load static humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MovieVerse - Discover Your Next Favorite Movie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+</head>
+<body>
+
+{% include "includes/header.html" %}
+
+
+<section class="hero">
+  <img src="{% static 'index/images/hero.jpg' %}" alt="Hero Background" class="hero-bg-img" />
+  <div class="hero-overlay"></div>
+  
+  <div class="hero-content">
+    <h1 class="hero-title">Unleash the World of Cinema</h1>
+    <p class="hero-subtitle">Dive into personalized movie recommendations tailored to your mood and preferences.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'index:explore' %}?category=Movies" class="btn btn-primary">Explore Movies</a>
+      <a href="{% url 'user_profile:recommendations'%}" class="btn btn-secondary">Personalized Recommendations</a>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="search-section">
+  <div class="search-header">
+    <h2>Find Movies That Match Your Mood</h2>
+    <p>Search by name. Discover something you'll love.</p>
+  </div>
+{% with SEARCH_GENRES=SEARCH_GENRES %}
+  <form class="search-form" method="GET" action="{% url 'index:search' %}">
+    
+
+    {% comment %} <div class="dropdown">
+      <select name="genre" class="select-input">
+        <option value="">All Genres</option>
+        {% for g in SEARCH_GENRES %}
+          <option value="{{ g }}"{% if request.GET.genre == g %} selected{% endif %}>
+            {{ g }}
+          </option>
+        {% endfor %}
+      </select>
+    </div> {% endcomment %}
+
+    <input
+      type="text"
+      name="q"
+      class="search-input"
+      placeholder="Search movies, series, moods…"
+      value="{{ request.GET.q|default_if_none:'' }}"
+    />
+    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+  </form>
+{% endwith %}
+
+
+</section>
+
+
+<section class="all-categories">
+  <h2 class="section-heading">Browse by Categories</h2>
+
+  {% for category, movies in categories %}
+    <div class="category-row">
+      <h3 class="category-title">{{ category }}</h3>
+      <div class="card-row">
+        {% for m in movies %}
+        
+          <div class="movie-card" data-movie-id="{{ m.tmdb_id }}">
+            <a href="{% url 'index:movie_detail' m.tmdb_id %}" class="movie-card-link">
+            <img
+              src="https://image.tmdb.org/t/p/w200{{ m.poster_path }}"
+              alt="{{ m.title }}"
+            >
+            </a>
+            <button class="watchlist-btn" data-url="{% url 'index:toggle_watchlist' %}">
+              
+              <i class="fas fa-bookmark"></i>
+            </button>
+            <div class="info">
+              <h4>{{ m.title }}</h4>
+              <p>
+                {% for g in m.genres_list %}
+                  {{ g }}{% if not forloop.last %} | {% endif %}
+                {% endfor %}
+              </p>
+              <div class="meta">
+                <span>
+                  {% if m.release_date %}{{ m.release_date.year }}{% endif %}
+                  • {{ m.runtime }} min
+                </span>
+                <span>
+                  ★ {{ m.vote_average }}
+                  <small>({{ m.vote_count|intcomma }})</small>
+                </span>
+              </div>
+            </div>
+          </div>
+        
+        {% endfor %}
+          {% if category == "Sci-Fi" %}
+          <div class="explore">
+          <a href="{% url 'index:explore' %}?genre=Science Fiction">
+            Explore More →
+          </a>
+        </div>
+          {% else %}
+        <div class="explore">
+          <a href="{% url 'index:explore' %}?genre={{ category }}">
+            Explore More →
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+</section>
+
+
+  {% include "includes/footer.html" %}
+
+  <script src="{% static 'index/js/script.js'%}"></script>
+  <script src="{% static 'index/js/watchlist.js'%}"></script>
+  <script src="{% static 'index/js/search_validation.js' %}"></script>
+
+</body>
+</html>

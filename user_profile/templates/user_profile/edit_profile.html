@@ -1,0 +1,116 @@
+{% extends "user_profile/profile_base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile – MovieVerse{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'user_profile/css/edit_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+  <!-- Stats Cards -->
+  <section class="stats-row">
+    <div class="stat-card">
+      <i class="fa fa-bookmark stat-icon"></i>
+      <h3 id="watchlistCount">{{ watchlist_count }}</h3>
+      <p>Watchlist</p>
+    </div>
+    <div class="stat-card">
+      <i class="fa fa-history stat-icon"></i>
+      <h3 id="historyCount">{{ history_count }}</h3>
+      <p>History</p>
+    </div>
+  </section>
+
+  <!-- Section Title -->
+  <div class="section-title">Account Information</div>
+
+  <!-- Profile Info -->
+  <section class="profile-info" data-url="{% url 'user_profile:edit_profile' %}">
+    {% csrf_token %}
+    <div class="info-row">
+      <span class="label">Email:</span>
+      <span id="emailDisplay">{{ email }}</span>
+      {% comment %} <i id="editEmailBtn" class="fa fa-edit edit-icon"></i> {% endcomment %}
+    </div>
+
+    <div class="info-row">
+      <span class="label">Email Notifications:</span>
+      <label class="switch">
+        <input type="checkbox" id="notifyToggle"{% if notify %} checked{% endif %}>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Password:</span>
+      <button id="changePwdBtn" class="btn-small">Change Password</button>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Deactivate Account:</span>
+      <form method="post" action="{% url 'user_profile:edit_profile' %}" class="inline-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="deactivate">
+        <button type="submit" class="btn-deactive">Deactivate</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Change Email Modal -->
+  <div id="emailModal" class="modal">
+    <div class="modal-content">
+      <span id="closeEmailModal" class="close">&times;</span>
+      <h3>Change Email</h3>
+      <form id="emailForm" method="post" action="{% url 'user_profile:edit_profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="email">
+        <input
+          type="email"
+          id="newEmail"
+          name="new_email"
+          placeholder="New Email"
+          required
+        >
+        <p id="emailError" class="error-msg"></p>
+        <button type="submit" id="submitEmailBtn" class="modal-btn" disabled>
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="pwdModal" class="modal">
+    <div class="modal-content">
+      <span id="closePwdModal" class="close">&times;</span>
+      <h3>Change Password</h3>
+      <form id="pwdForm" method="post" action="{% url 'user_profile:edit_profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="password">
+        <input
+          type="password"
+          id="newPassword"
+          name="new_password"
+          placeholder="New Password"
+          required
+        >
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirm_password"
+          placeholder="Confirm Password"
+          required
+        >
+        <p id="pwdError" class="error-msg"></p>
+        <button type="submit" id="submitPwdBtn" class="modal-btn" disabled>
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'user_profile/js/edit_profile.js' %}"></script>
+{% endblock %}

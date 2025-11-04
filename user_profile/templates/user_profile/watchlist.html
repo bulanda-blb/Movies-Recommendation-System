@@ -1,0 +1,89 @@
+{% extends "user_profile/profile_base.html" %}
+{% load static humanize genre_extras %}
+
+{% block title %}Your Watchlist – MovieVerse{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'user_profile/css/watchlist.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="watchlist-controls">
+  <div class="left">
+    <div class="custom-select">
+      <select id="sortSelect">
+        <option value="date"   {% if current_sort == 'date'   %}selected{% endif %}>Date Added</option>
+        <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>Rating</option>
+      </select>
+      <i class="fa fa-sort"></i>
+    </div>
+
+    <div class="custom-select">
+      <select id="filterSelect">
+        <option value="all" {% if current_genre == 'all' %}selected{% endif %}>All Genres</option>
+        {% for g in all_genres %}
+          <option value="{{ g }}" {% if current_genre == g %}selected{% endif %}>
+            {{ g|humanize_genre }}
+          </option>
+        {% endfor %}
+      </select>
+      <i class="fa fa-filter"></i>
+    </div>
+  </div>
+</section>
+
+<section class="watchlist-grid" id="watchlistGrid">
+  {% for m in items %}
+    <div class="movie-card" data-movie-id="{{ m.tmdb_id }}">
+      <a href="{% url 'index:movie_detail' m.tmdb_id %}" class="movie-card-link">
+      <img src="https://image.tmdb.org/t/p/w200{{ m.poster_path }}" alt="{{ m.title }}">
+      </a>
+      <button 
+        class="remove-btn" 
+        data-url="{% url 'index:toggle_watchlist' %}"
+        aria-label="Remove from Watchlist"
+      >
+        <i class="fa fa-times"></i>
+      </button>
+      <div class="info">
+        <h4>{{ m.title }}</h4>
+        <p>
+          {% for g in m.genres_list %}
+            {{ g }}{% if not forloop.last %} | {% endif %}
+          {% endfor %}
+        </p>
+        <div class="meta">
+          <span>
+            {% if m.release_date %}{{ m.release_date.year }}{% endif %} • {{ m.runtime }} min
+          </span>
+          <span>★ {{ m.vote_average }} <small>({{ m.vote_count|intcomma }})</small></span>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="empty-msg">Your watchlist is empty.</p>
+  {% endfor %}
+</section>
+
+<nav class="pagination" id="paginationNav">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}&genre={{ current_genre }}">← Prev</a>
+  {% endif %}
+  {% for p in page_obj.paginator.page_range %}
+    {% if p == page_obj.number %}
+      <span class="current">{{ p }}</span>
+    {% else %}
+      <a href="?page={{ p }}&sort={{ current_sort }}&genre={{ current_genre }}">{{ p }}</a>
+    {% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}&genre={{ current_genre }}">Next →</a>
+  {% endif %}
+</nav>
+
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'user_profile/js/watchlist.js' %}"></script>
+{% endblock %}

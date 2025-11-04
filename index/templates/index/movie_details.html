@@ -1,0 +1,147 @@
+
+{% load static humanize %}
+
+
+{% block head %}
+  <title>{{m.title}}</title>  
+  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'index/css/detail.css' %}">
+  <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'index/css/explore.css' %}">
+{% endblock %}
+
+{% block content %}
+  {% include "includes/header.html" %}
+
+  <main class="detail-page">
+    <div class="detail-container">
+
+      <!-- Backdrop -->
+      <div class="backdrop" style="background-image:url('https://image.tmdb.org/t/p/original{{ m.backdrop_path }}')"></div>
+
+      <!-- Core info -->
+      <div class="content-wrapper">
+        <img class="poster" src="https://image.tmdb.org/t/p/w300{{ m.poster_path }}" alt="{{ m.title }} poster">
+
+        <div class="info">
+          <h1>
+            {{ m.title }}
+            <span class="year">({{ m.release_date.year }})</span>
+          </h1>
+          {% if m.tagline %}
+            <p class="tagline">“{{ m.tagline }}”</p>
+          {% endif %}
+
+          <div class="metadata">
+            <span class="rating">★ {{ m.vote_average }} <small>({{ m.vote_count|intcomma }})</small></span>
+            <span class="runtime">{{ m.runtime }} min</span>
+            <span class="popularity">Popularity: {{ m.popularity }}</span>
+          </div>
+
+          <div class="genres">
+            {% for g in genres_list %}
+                <span class="genre">{{ g }}</span>
+            {% empty %}
+                <span class="genre">No genres listed</span>
+            {% endfor %}
+          </div>
+
+          <p class="overview">{{ m.overview }}</p>
+
+          <div class="extra-info">
+            {% if m.budget %}
+              <div><strong>Budget:</strong> ${{ m.budget|intcomma }}</div>
+            {% endif %}
+            {% if m.revenue %}
+              <div><strong>Revenue:</strong> ${{ m.revenue|intcomma }}</div>
+            {% endif %}
+            {% if m.homepage %}
+              <div><a href="{{ m.homepage }}" class="details_links" target="_blank">Official Website</a></div>
+            {% endif %}
+            {% if m.imdb_id %}
+              <div>
+                <a href="https://www.imdb.com/title/{{ m.imdb_id }}" class="details_links" target="_blank">
+                  View on IMDb
+                </a>
+              </div>
+            {% endif %}
+            
+          </div>
+           <button
+              id="watchlistBtn"
+              data-movie-id="{{ m.tmdb_id }}"
+              class="detail-watchlist-btn {% if in_watchlist %}gold{% else %}white{% endif %}">
+              {% if in_watchlist %}Remove from Watchlist{% else %}Save to Watchlist{% endif %}
+          </button>
+          
+        </div>
+      </div>
+
+      <!-- Trailer -->
+      <section class="trailer-section">
+        <h2>Watch movie Trailer</h2>
+        <div id="trailerContainer" class="trailer-container">
+          Loading trailer…
+        </div>
+      </section>
+    </div>
+  </main>
+    <!-- Recommended Movies -->
+  <section class="recommendation-section">
+    <h2 class="section-heading">Recommended Movies</h2>
+    {% for row in recommendation_rows %}
+      <div class="card-row">
+        {% for m in row %}
+        <div class="movie-card" data-movie-id="{{ m.tmdb_id }}">
+          <a href="{% url 'index:movie_detail' m.tmdb_id %}" class="movie-card-link">
+          <img src="https://image.tmdb.org/t/p/w200{{ m.poster_path }}" alt="{{ m.title }}">
+          </a>  
+          <button class="watchlist-btn" data-url="{% url 'index:toggle_watchlist' %}">
+            <i class="fas fa-bookmark"></i>
+          </button>
+          <div class="new_info">
+            <h4>{{ m.title }}</h4>
+            <p>
+              {% for g in m.genres_list %}
+                {{ g }}{% if not forloop.last %} | {% endif %}
+              {% endfor %}
+            </p>
+            <div class="meta">
+              <span>{% if m.release_date %}{{ m.release_date.year }}{% endif %} • {{ m.runtime }} min</span>
+              <span>★ {{ m.vote_average }} <small>({{ m.vote_count|intcomma }})</small></span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    {% endfor %}
+  </section>
+
+  {% include "includes/footer.html" %}
+{% endblock %}
+
+{% block script %}
+  <script>
+    // 1) TMDb API key
+    const TMDB_API_KEY = "{{ TMDB_API_KEY }}";
+
+    // 2) AJAX endpoint for toggling watchlist
+    const TOGGLE_WATCHLIST_URL = "{% url 'index:toggle_watchlist_ajax' %}";
+
+    // 3) CSRF helper
+    function getCookie(name) {
+      let v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return v ? v.pop() : '';
+    }
+  </script>
+
+  <!-- now load your page‐specific JS -->
+  <script src="{% static 'index/js/detail.js' %}"></script>
+  <script src="{% static 'index/js/script.js' %}"></script>
+  <script src="{% static 'index/js/explore.js' %}"></script>
+  <script src="{% static 'index/js/watchlist.js'%}"></script>
+{% endblock %}
+

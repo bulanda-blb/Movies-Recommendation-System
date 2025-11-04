@@ -1,0 +1,109 @@
+.signup-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b, #ff6ec4, #007cf0);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.backend-error {
+  max-width: 400px;
+  margin: 0.5rem auto;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  background-color: #f8d7da;  
+  color: #721c24;             
+  font-weight: bold;
+  text-align: center;
+
+  /* fade transition */
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+
+
+.signup-card {
+  background: #1c1c1c;
+  border-radius: 10px;
+  padding: 30px 40px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  text-align: center;
+  color: #E0E0E0;
+}
+
+.signup-card h2 {
+  margin-bottom: 20px;
+  color: #BB86FC;
+}
+
+.signup-card input[type="email"],
+.signup-card input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.checkbox-label input {
+  margin-right: 10px;
+}
+
+button#registerBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #444;
+  color: #999;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s;
+}
+
+button#registerBtn.enabled {
+  background-color: #03DAC6;
+  color: #121212;
+  cursor: pointer;
+}
+
+.error-msg {
+  color: #FF6E6E;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  height: 18px;
+}
+
+.bottom-link {
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
+
+.bottom-link a {
+  color: #03DAC6;
+  text-decoration: none;
+}

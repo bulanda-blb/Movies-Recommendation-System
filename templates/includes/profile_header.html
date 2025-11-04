@@ -1,0 +1,55 @@
+
+{% load static %}
+
+<header>
+  <a href="{% url 'index:index'%}" id="header-logo"><div class="logo">MovieVerse</div></a>
+  <nav class="main-nav">
+  <a href="{% url 'index:explore' %}?category=Movies">Movies</a>
+  
+
+    <div class="dropdown">
+      <a href="#">Genres <i class="fa fa-caret-down"></i></a>
+      <div class="dropdown-content two-column">
+        <a href="{% url 'index:explore' %}?genre=Action">Action</a>
+        <a href="{% url 'index:explore' %}?genre=Adventure">Adventure</a>
+        <a href="{% url 'index:explore' %}?genre=Comedy">Comedy</a>
+        <a href="{% url 'index:explore' %}?genre=Crime">Crime</a>
+        <a href="{% url 'index:explore' %}?genre=Drama">Drama</a>
+        <a href="{% url 'index:explore' %}?genre=Fantasy">Fantasy</a>
+        <a href="{% url 'index:explore' %}?genre=Horror">Horror</a>
+        <a href="{% url 'index:explore' %}?genre=Mystery">Mystery</a>
+        <a href="{% url 'index:explore' %}?genre=Romance">Romance</a>
+        <a href="{% url 'index:explore' %}?genre=Science%20Fiction">Sci-Fi</a>
+        <a href="{% url 'index:explore' %}?genre=Thriller">Thriller</a>
+        <a href="{% url 'index:explore' %}?genre=War">War</a>
+        <a href="{% url 'index:explore' %}?genre=Western">Western</a>
+      
+        <a href="{% url 'index:explore' %}?genre=Animation">Animation</a>
+        <a href="{% url 'index:explore' %}?genre=Family">Family</a>
+        
+      </div>
+    </div>
+    <div class="dropdown">
+      <a href="#">Categories <i class="fa fa-caret-down"></i></a>
+      <div class="dropdown-content two-column">
+      <a href="{% url 'index:explore' %}?category=Movies">Movies</a>
+      
+      <a href="{% url 'index:explore' %}?category=Documentaries">Documentaries</a>
+      
+      <a href="{% url 'index:explore' %}?category=Animated%20Movies">Animated Movies</a>
+      <a href="{% url 'index:explore' %}?category=Stand-up%20Comedy">Stand-up Comedy</a>
+      <a href="{% url 'index:explore' %}?category=Bollywood">Bollywood</a>
+      <a href="{% url 'index:explore' %}?category=Hollywood">Hollywood</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    {% if request.session.user_id %}
+    <a href="{% url 'user_profile:preferences'%}"><div class="user-icon"><i class="fa fa-user-circle"></i></div></a>
+    {% else %}
+    <a href="{% url 'login'%}"><button class="login-btn">Login</button><a/>
+    {% endif %}
+    
+  </div>
+</header>

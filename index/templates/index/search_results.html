@@ -1,0 +1,80 @@
+{% load static humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Results – MovieVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'index/css/explore.css' %}">
+</head>
+<body>
+
+{% include "includes/header.html" %}
+
+<main class="search-results-page">
+  <section class="search-section">
+    <h2>Search results for “{{ q }}”</h2>
+    {% if show_login_prompt %}
+      <div class="search-login-prompt">
+        Want personalized recommendations? 
+        <a href="{% url 'login' %}">
+          Log in to your account
+        </a>.
+      </div>
+    {% endif %}
+    {% if not results %}
+      <p>No matches found. Try a different term.</p>
+    {% endif %}
+  </section>
+
+  <section class="movie-grid">
+    {% for m in results %}
+      <div class="movie-card" data-movie-id="{{ m.tmdb_id }}">
+        <a href="{% url 'index:movie_detail' m.tmdb_id %}" class="movie-card-link">
+        <img src="https://image.tmdb.org/t/p/w200{{ m.poster_path }}" alt="{{ m.title }}">
+        </a>
+        <button 
+          class="watchlist-btn" 
+          data-url="{% url 'index:toggle_watchlist' %}"
+        ><i class="fas fa-bookmark"></i></button>
+        <div class="info">
+          <h4>{{ m.title }}</h4>
+          <p>{% for g in m.genres_list %}{{ g }}{% if not forloop.last %} | {% endif %}{% endfor %}</p>
+          <div class="meta">
+            <span>{% if m.release_date %}{{ m.release_date.year }}{% endif %} • {{ m.runtime }} min</span>
+            <span>★ {{ m.vote_average }} <small>({{ m.vote_count|intcomma }})</small></span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?q={{ q }}&category={{ current_category }}&genre={{ current_genre }}&page={{ page_obj.previous_page_number }}">← Prev</a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <span class="current">{{ num }}</span>
+      {% else %}
+        <a href="?q={{ q }}&category={{ current_category }}&genre={{ current_genre }}&page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <a href="?q={{ q }}&category={{ current_category }}&genre={{ current_genre }}&page={{ page_obj.next_page_number }}">Next →</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+</main>
+
+{% include "includes/footer.html" %}
+
+<script src="{% static 'index/js/script.js' %}"></script>
+<script src="{% static 'index/js/watchlist.js' %}"></script>
+</body>
+</html>
