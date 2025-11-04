@@ -1,5 +1,5 @@
 # Movies-Recommendation-System
-
+Developed a scalable and intelligent movie recommendation web platform that simplifies the movie discovery process through personalized and genre-based recommendations. The system leverages hybrid content-based filtering using TF-IDF vectorization and cosine similarity to match user preferences derived from watch history, search behavior, and genre selection. Integrated Elasticsearch for fast and fuzzy movie title searches and implemented caching and precomputed feature vectors to ensure high performance on large datasets (1M+ movies).
 
 # Project Setup and Run Instructions
 
