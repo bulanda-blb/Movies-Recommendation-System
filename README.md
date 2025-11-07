@@ -88,9 +88,15 @@ python manage.py runserver
 ---
 
 ## 8️⃣ Notes & Tips
-
+* some changes required in `settings.py`:
+  ```
+  SECRET_KEY = Your secret key
+  EMAIL_HOST_USER = Your email id         
+  EMAIL_HOST_PASSWORD = Your email app password    
+  ```
 * Always **activate the virtual environment** before running any Python commands.
 * Keep your `.env` file **private** — do not commit it to GitHub.
+* Upload movies to `Raw_Movie` model covering the every fieldsin it.
 * Make sure `__pycache__/` and `migrations/` folders are listed in `.gitignore` to avoid unnecessary files in the repository. Example `.gitignore` entries:
 
 ```
