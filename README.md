@@ -96,7 +96,7 @@ python manage.py runserver
   ```
 * Always **activate the virtual environment** before running any Python commands.
 * Keep your `.env` file **private** — do not commit it to GitHub.
-* Upload movies to `RawMovie` database or model covering the every fields in it. you can download movies data from kaggle(Extracted from TMDB) which have complete data fields as in our model defined in `Movies` APP.
+* Upload movies to `RawMovie` database or model covering the every fields in it. you can download movies data from kaggle(Extracted from TMDB) which have complete data fields as in our model defined inside `Movies` APP.
 * Make sure `__pycache__/` and `migrations/` folders are listed in `.gitignore` to avoid unnecessary files in the repository. Example `.gitignore` entries:
 
 ```
